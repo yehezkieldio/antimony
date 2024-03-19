@@ -1,0 +1,16 @@
+# Replace with your domain name
+:4441 {
+	encode zstd gzip
+
+	# Enable automatic HTTPS for development using a self-signed certificate
+	# tls internal {
+	# 	on_demand
+	# }
+
+	# Enable automatic HTTPS for production
+	# tls { cert.crt key.key }
+
+	# Livekit
+	# Replace with your Livekit server address and port
+	reverse_proxy localhost:7880
+}

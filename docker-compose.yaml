@@ -1,0 +1,50 @@
+services:
+  # NGINX server
+  antimony-nginx:
+    container_name: antimony-nginx
+    image: nginx:latest
+    user: root
+    volumes:
+      - ./etc/nginx:/etc/nginx
+    ports:
+      - "4441:4441"
+    network_mode: host
+
+  # Caddy server
+  # antimony-caddy:
+  #   container_name: antimony-caddy
+  #   image: caddy:latest
+  #   volumes:
+  #     - ./tmp/caddy/data:/data
+  #     - ./etc/caddy/config/Caddyfile:/etc/caddy/Caddyfile
+  #   ports:
+  #     - "4441:4441"
+  #   depends_on:
+  #     - antimony-livekit-server
+  #   network_mode: host
+
+  # Redis server
+  antimony-redis:
+    container_name: antimony-redis
+    image: redis:latest
+    user: root
+    volumes:
+      - ./etc/redis:/etc/redis
+      - ./tmp/cache:/data
+    ports:
+      - "6379:6379"
+    network_mode: host
+    restart: always
+    command: redis-server --save 20 1 --requirepass antimony
+
+  # Livekit server
+  antimony-livekit-server:
+    container_name: antimony-livekit-server
+    image: livekit/livekit-server:latest
+    user: root
+    command: --dev --config /livekit/config.yaml --bind 0.0.0.0
+    network_mode: host
+    volumes:
+      - ./etc/livekit:/livekit
+    depends_on:
+      - antimony-redis
