@@ -14,8 +14,4 @@ down-prod:
 	@echo "Stopping production containers"
 	docker compose -f docker-compose.production.yaml down
 
-run-api:
-	@echo "Running API"
-	go run api/cmd/main.go
-
 .PHONY: up down up-prod down-prod
