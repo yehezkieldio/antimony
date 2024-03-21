@@ -11,7 +11,7 @@ import (
 func New() *echo.Echo {
 	e := echo.New()
 	e.Logger.SetLevel(log.DEBUG)
-	e.Pre(middleware.AddTrailingSlash())
+	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
